@@ -1,0 +1,5 @@
+code.zip
+*.pem
+.vscode/
+__pycache__/
+*.pyc
