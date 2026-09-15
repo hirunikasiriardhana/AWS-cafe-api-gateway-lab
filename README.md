@@ -13,11 +13,11 @@ This was completed as part of an AWS hands-on training lab (*Lab 6.1: Developing
 ### Architecture
 
 ```
-┌─────────────────┐         ┌──────────────────┐         ┌───────────────────┐
-│   S3 Website     │ ───────▶│  API Gateway      │ ───────▶│  Mock Integration  │
-│  (index.html,    │  HTTP   │  (ProductsApi)    │         │  (hardcoded JSON)  │
-│   main.js, etc.)  │         │                   │         │                    │
-└─────────────────┘         └──────────────────┘         └───────────────────┘
+┌────────────────────┐          ┌──────────────────┐          ┌───────────────────┐
+│   S3 Website       │ ───────▶     API Gateway     ───────▶  Mock Integration  
+│  (index.html,      │  HTTP    │  (ProductsApi)   │          │  (hardcoded JSON) │
+│   main.js, etc.)   │          │                  │          │                   │
+└────────────────────┘          └──────────────────┘          └───────────────────┘
 ```
 
 ### API Endpoints Created
@@ -49,10 +49,11 @@ This was completed as part of an AWS hands-on training lab (*Lab 6.1: Developing
 - Verified `aws --version` (v2) and `pip3 show boto3` were correctly installed.
 - Verified the café website loaded from its S3 **Object URL**, showing 6 "on offer" hardcoded menu items.
 
-![AWS Console Home](./screenshots/01-aws-console-home.png)
-*AWS Management Console home page after logging into the lab account.*
+<img width="1920" height="875" alt="01-aws-console-home" src="https://github.com/user-attachments/assets/b25b8d29-2668-4843-837b-75953330abf6" />
 
-![Website with hardcoded JSON data](./screenshots/02-website-initial-mock-json.png)
+*AWS Management Console home page after logging into the lab account.*
+<img width="1920" height="876" alt="02-website-initial-mock-json" src="https://github.com/user-attachments/assets/9dca04d2-f385-4df9-bb24-d1971c549b61" />
+
 *Café website initially displaying data read directly from static JSON files (`all_products.json`, `all_products_on_offer.json`) in S3 — before API Gateway was connected.*
 
 ---
@@ -73,7 +74,8 @@ This was completed as part of an AWS hands-on training lab (*Lab 6.1: Developing
   ```
 - Verified in the API Gateway console that the `GET /products` method returned a `200` status with 3 mock products.
 
-![GET /products method execution](./screenshots/03-products-api-get-method.png)
+<img width="1920" height="806" alt="03-products-api-get-method" src="https://github.com/user-attachments/assets/00da2fd4-6b3e-4a81-af11-2ee522a90c15" />
+
 *API Gateway console showing the `/products` GET method execution flow: Client → Method Request → Integration Request (MOCK) → Integration Response → Method Response.*
 
 ---
@@ -87,7 +89,8 @@ This was completed as part of an AWS hands-on training lab (*Lab 6.1: Developing
 - This created a **nested resource** `/products/on_offer` with its own GET method and MOCK integration, returning a single "on offer" mock item.
 - Ran the script and verified via Test in the console — returned `200` with 1 mock item.
 
-![on_offer nested resource GET method](./screenshots/04-on-offer-resource-get-method.png)
+<img width="1920" height="871" alt="04-on-offer-resource-get-method" src="https://github.com/user-attachments/assets/92595d4d-8499-4166-99d1-055d19236f0a" />
+
 *The `/products/on_offer` resource nested under `/products`, with its GET method configured and ready to test.*
 
 ---
@@ -113,11 +116,11 @@ This was completed as part of an AWS hands-on training lab (*Lab 6.1: Developing
   ```
   https://nmiox8sjoj.execute-api.us-east-1.amazonaws.com/prod
   ```
+<img width="1920" height="838" alt="05-resources-tree-all-endpoints" src="https://github.com/user-attachments/assets/ce262af7-b26b-4892-8ed2-550ecacf12d8" />
 
-![All resources created + API deployment](./screenshots/05-resources-tree-all-endpoints.png)
 *Final resource tree in API Gateway showing all three endpoints (`/create_report`, `/products`, `/products/on_offer`) before deployment.*
+<img width="1920" height="881" alt="06-api-deployed-invoke-url" src="https://github.com/user-attachments/assets/52600a4b-755e-4bc7-9ab8-56ed3ac2c3cd" />
 
-![API successfully deployed to prod stage](./screenshots/06-api-deployed-invoke-url.png)
 *Successful deployment confirmation with the generated Invoke URL for the `prod` stage.*
 
 ---
@@ -142,10 +145,11 @@ This was completed as part of an AWS hands-on training lab (*Lab 6.1: Developing
   - **"on offer"** view showed **1 item** (matching the `/products/on_offer` mock response)
   - **"view all"** view showed **3 items** (matching the `/products` mock response)
 
-![Website "on offer" view via API Gateway](./screenshots/07-website-on-offer-via-apigateway.png)
-*Website now shows only 1 item under "on offer" — sourced live from the `/products/on_offer` API Gateway mock endpoint.*
+<img width="1920" height="872" alt="07-website-on-offer-via-apigateway" src="https://github.com/user-attachments/assets/ac720d9e-5c91-4450-aa95-862e365a35c7" />
 
-![Website "view all" view via API Gateway](./screenshots/08-website-view-all-via-apigateway.png)
+*Website now shows only 1 item under "on offer" — sourced live from the `/products/on_offer` API Gateway mock endpoint.*
+<img width="1920" height="877" alt="08-website-view-all-via-apigateway" src="https://github.com/user-attachments/assets/c386d620-93d3-4756-8eca-ecc6f63e328c" />
+
 *Website "view all" now shows 3 products — sourced live from the `/products` API Gateway mock endpoint.*
 
 ---
@@ -183,17 +187,7 @@ This was completed as part of an AWS hands-on training lab (*Lab 6.1: Developing
 └── README.md
 ```
 
----
-
-## 🔜 Next Steps (Future Labs)
-
-- Replace the **MOCK** integrations with **AWS Lambda** functions that query the actual **DynamoDB** table (`FoodProducts`).
-- Implement authentication with **Amazon Cognito** so `/create_report` can be securely called by logged-in café staff.
-- Enable proper CORS handling once Cognito auth is in place.
-
----
-
 ## 📝 Notes
 
-- This project was built inside a temporary AWS Skill Builder lab sandbox account — resource IDs (API Gateway ID, S3 bucket name) shown above are specific to that session and will differ if you redeploy this yourself.
+- This project was built inside a temporary AWS Skill Builder lab sandbox account — resource IDs (API Gateway ID, S3 bucket name) shown above are specific to that session.
 - All endpoints in this stage return **static mock data** for development purposes; no live database calls are made yet.
